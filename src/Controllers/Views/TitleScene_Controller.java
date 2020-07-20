@@ -22,7 +22,7 @@ public class TitleScene_Controller {
     @FXML
     private void onHandleStart(){
 
-        System.out.println("Start Game");
+        this.mainApp.showGameScene();
     }
 
     @FXML

@@ -1,5 +1,6 @@
 package Controllers;
 
+import Controllers.Views.GameScene_Controller;
 import Controllers.Views.TitleScene_Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -62,6 +63,28 @@ public class Main extends Application {
 
             //Set Scene to Root Layout
             this.rootLayout.setCenter(titleScene);
+
+        }catch (IOException e){
+
+            e.printStackTrace();
+        }
+    }
+
+    public void showGameScene(){
+
+        try{
+
+            //Load Fxml File
+            FXMLLoader loader =  new FXMLLoader();
+            loader.setLocation(Main.class.getResource("Views/GameScene_UI.fxml"));
+            BorderPane gameScene = loader.load();
+
+            //Set Controller to Game Scene
+            GameScene_Controller controller = loader.getController();
+            controller.setMainApp(this);
+
+            //Set Game Scene to Root Layout
+            this.rootLayout.setCenter(gameScene);
 
         }catch (IOException e){
 
