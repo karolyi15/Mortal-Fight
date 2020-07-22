@@ -10,13 +10,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Views.MenuScene_Controller">
    <children>
       <VBox layoutX="575.0" layoutY="371.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" text="Select User" />
-            <Button mnemonicParsing="false" text="Create User" />
+            <Button fx:id="select_Button" mnemonicParsing="false" text="Select User" />
+            <Button fx:id="create_Button" mnemonicParsing="false" text="Create User" />
          </children>
       </VBox>
       <GridPane layoutX="280.0" layoutY="46.0" prefHeight="282.0" prefWidth="392.0">
