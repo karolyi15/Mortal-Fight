@@ -62,8 +62,9 @@
                   </GridPane>
                   <HBox layoutX="130.0" layoutY="413.0" spacing="20.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <children>
-                        <Button fx:id="select_Button" mnemonicParsing="false" text="Select User" />
-                        <Button fx:id="create_Button" mnemonicParsing="false" text="Create User" />
+                        <Button fx:id="select_Button" mnemonicParsing="false" onAction="#onHandleSelectUser" text="Select User" />
+                        <Button fx:id="create_Button" mnemonicParsing="false" onAction="#onHandleCreateUser" text="Create User" />
+                        <Button fx:id="deleteUser_Button" mnemonicParsing="false" onAction="#onHandleDeleteUser" text="Delete User" />
                      </children>
                   </HBox>
                   <Label layoutX="45.0" layoutY="27.0" text="User Information :" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />

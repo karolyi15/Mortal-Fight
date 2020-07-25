@@ -31,6 +31,7 @@ public class Main extends Application {
     private MediaPlayer soundPlayer;
 
     private ObservableList<User> userData;
+    private User activeUser;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -61,6 +62,14 @@ public class Main extends Application {
 
     public ObservableList<User> getUserData() {
         return userData;
+    }
+
+    public User getActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
     }
 
     //*** Sound System ***

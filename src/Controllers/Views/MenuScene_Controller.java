@@ -3,10 +3,9 @@ package Controllers.Views;
 import Controllers.Main;
 import Controllers.Models.User;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+
+import java.util.Optional;
 
 public class MenuScene_Controller {
 
@@ -26,6 +25,8 @@ public class MenuScene_Controller {
     private Button selectUser_Button;
     @FXML
     private Button createUser_Button;
+    @FXML
+    private Button deleteUser_Button;
 
     //*** Labels ***
     @FXML
@@ -47,7 +48,6 @@ public class MenuScene_Controller {
     //******************************************** CLASS METHODS *********************************************//
 
     //*** Constructor  ***
-
     @FXML
     private void initialize(){
 
@@ -73,13 +73,60 @@ public class MenuScene_Controller {
     @FXML
     private void onHandleSelectUser(){
 
-        this.mainApp.showGameScene();
+        User selectedUser = this.users_TableView.getSelectionModel().getSelectedItem();
+
+        if(selectedUser != null) {
+            this.mainApp.setActiveUser(selectedUser);
+
+            this.mainApp.showGameScene();
+        }else{
+
+            //No user selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("No user selected");
+
+            alert.showAndWait();
+        }
     }
+
     @FXML
     private void onHandleCreateUser(){
 
+        TextInputDialog inputDialog =  new TextInputDialog("username");
+        inputDialog.setTitle("Create User");
+        inputDialog.setHeaderText(null);
+        inputDialog.setContentText("Enter a username: ");
+
+        Optional<String> username = inputDialog.showAndWait();
+
+        if(username.isPresent()){
+
+            this.users_TableView.getItems().add(new User(username.get()));
+        }
     }
 
+    @FXML
+    private void onHandleDeleteUser(){
+
+        int selectedIndex = this.users_TableView.getSelectionModel().getSelectedIndex();
+
+        if(selectedIndex>=0) {
+            this.users_TableView.getItems().remove(selectedIndex);
+        }else{
+
+            //No user selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("No user selected");
+
+            alert.showAndWait();
+        }
+    }
+
+    //*** Display Information ***
     private void showUserInformation(User user){
 
         if(user!=null){
