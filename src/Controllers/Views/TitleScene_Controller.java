@@ -26,7 +26,7 @@ public class    TitleScene_Controller {
     //*** Initialize ***
     public void initScene(){
 
-        this.mainApp.playMusic("Resources/Sounds/Title_Music.mp3");
+        //this.mainApp.playMusic("Resources/Sounds/Title_Music.mp3");
     }
 
     //*** Setters & Getters ***

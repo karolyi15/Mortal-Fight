@@ -1,10 +1,13 @@
 package Controllers;
 
+import Controllers.Models.User;
 import Controllers.Views.AboutScene_Controller;
 import Controllers.Views.GameScene_Controller;
 import Controllers.Views.MenuScene_Controller;
 import Controllers.Views.TitleScene_Controller;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -27,20 +30,60 @@ public class Main extends Application {
     private MediaPlayer musicPlayer;
     private MediaPlayer soundPlayer;
 
+    private ObservableList<User> userData;
+
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
+
+    //*** Constructor ***
+    public Main(){
+
+        this.userData = FXCollections.observableArrayList();
+
+        this.userData.add(new User("manolo"));
+        this.userData.add(new User("tetaslocas",1,1,1,1,1,1));
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
         this.primaryStage=primaryStage;
         this.primaryStage.setTitle("Mortal Fight");
+        this.primaryStage.setResizable(false);
 
         this.initRootLayout();
         this.showTitleScene();
 
     }
 
+    //*** Setters & Getters ***
+
+
+    public ObservableList<User> getUserData() {
+        return userData;
+    }
+
+    //*** Sound System ***
+    public void playMusic(String filePath){
+
+        Media music = new Media(new File(filePath).toURI().toString());
+        this.musicPlayer = new MediaPlayer(music);
+
+        this.musicPlayer.setVolume(1.2);
+        this.musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        this.musicPlayer.setAutoPlay(true);
+    }
+
+    public void playSound(String filePath){
+
+        Media music = new Media(new File(filePath).toURI().toString());
+        this.soundPlayer = new MediaPlayer(music);
+
+        this.soundPlayer.setVolume(1.7);
+        this.soundPlayer.setAutoPlay(true);
+    }
+
+    //*** Scene Management ***
     private void initRootLayout(){
 
         try{
@@ -149,25 +192,6 @@ public class Main extends Application {
 
             e.printStackTrace();
         }
-    }
-
-    public void playMusic(String filePath){
-
-        Media music = new Media(new File(filePath).toURI().toString());
-        this.musicPlayer = new MediaPlayer(music);
-
-        this.musicPlayer.setVolume(1.2);
-        this.musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        this.musicPlayer.setAutoPlay(true);
-    }
-
-    public void playSound(String filePath){
-
-        Media music = new Media(new File(filePath).toURI().toString());
-        this.soundPlayer = new MediaPlayer(music);
-
-        this.soundPlayer.setVolume(1.7);
-        this.soundPlayer.setAutoPlay(true);
     }
 
     public static void main(String[] args) {
