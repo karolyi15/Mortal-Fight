@@ -1,5 +1,6 @@
 package Controllers;
 
+import Controllers.Models.Message;
 import Controllers.Models.User;
 import Controllers.Views.AboutScene_Controller;
 import Controllers.Views.GameScene_Controller;
@@ -31,6 +32,7 @@ public class Main extends Application {
     private MediaPlayer soundPlayer;
 
     private ObservableList<User> userData;
+    private ObservableList<Message> messageData;
     private User activeUser;
 
     //********************************************************************************************************//
@@ -40,9 +42,12 @@ public class Main extends Application {
     public Main(){
 
         this.userData = FXCollections.observableArrayList();
+        this.messageData = FXCollections.observableArrayList();
 
         this.userData.add(new User("manolo"));
         this.userData.add(new User("tetaslocas",1,1,1,1,1,1));
+
+        this.messageData.add(new Message("About","Developer : Gunther Karolyi"));
     }
 
     @Override
@@ -62,6 +67,10 @@ public class Main extends Application {
 
     public ObservableList<User> getUserData() {
         return userData;
+    }
+
+    public ObservableList<Message> getMessageData() {
+        return messageData;
     }
 
     public User getActiveUser() {

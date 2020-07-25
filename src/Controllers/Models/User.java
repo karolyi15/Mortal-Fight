@@ -45,8 +45,6 @@ public class User {
     }
 
     //*** Setters & Getters ***
-
-
     public String getUsername() {
         return username.get();
     }
