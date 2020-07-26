@@ -6,6 +6,7 @@ import Controllers.Views.AboutScene_Controller;
 import Controllers.Views.GameScene_Controller;
 import Controllers.Views.MenuScene_Controller;
 import Controllers.Views.TitleScene_Controller;
+import ServerConection.Client;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,11 +36,16 @@ public class Main extends Application {
     private ObservableList<Message> messageData;
     private User activeUser;
 
+    //*** Server Connection ***
+    private Client serverClient;
+
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
 
     //*** Constructor ***
     public Main(){
+
+        this.serverClient =  new Client();
 
         this.userData = FXCollections.observableArrayList();
         this.messageData = FXCollections.observableArrayList();
@@ -74,11 +80,15 @@ public class Main extends Application {
     }
 
     public User getActiveUser() {
-        return activeUser;
+        return this.activeUser;
     }
 
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
+    }
+
+    public Client getServerClient() {
+        return serverClient;
     }
 
     //*** Sound System ***
@@ -197,11 +207,12 @@ public class Main extends Application {
             //Load Fxml File
             FXMLLoader loader =  new FXMLLoader();
             loader.setLocation(Main.class.getResource("Views/GameScene_UI.fxml"));
-            BorderPane gameScene = loader.load();
+            AnchorPane gameScene = loader.load();
 
             //Set Controller to Game Scene
             GameScene_Controller controller = loader.getController();
             controller.setMainApp(this);
+            controller.initGameScene();
 
             //Set Game Scene to Root Layout
             this.rootLayout.setCenter(gameScene);

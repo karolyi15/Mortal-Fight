@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.json.simple.JSONObject;
 
 public class User {
 
@@ -127,5 +128,21 @@ public class User {
 
     public void setGiveUp(int giveUp) {
         this.giveUp.set(giveUp);
+    }
+
+    //*** Send User Data ***
+    public String toJson(){
+
+        JSONObject userJson = new JSONObject();
+
+        userJson.put("userName",this.username);
+        userJson.put("wins",this.wins);
+        userJson.put("looses",this.looses);
+        userJson.put("attack",this.attack);
+        userJson.put("success",this.success);
+        userJson.put("failed",this.failed);
+        userJson.put("giveUp",this.giveUp);
+
+        return userJson.toJSONString();
     }
 }

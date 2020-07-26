@@ -76,6 +76,7 @@ public class MenuScene_Controller {
         User selectedUser = this.users_TableView.getSelectionModel().getSelectedItem();
 
         if(selectedUser != null) {
+
             this.mainApp.setActiveUser(selectedUser);
 
             this.mainApp.showGameScene();
