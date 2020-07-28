@@ -1,5 +1,7 @@
 package ServerConection;
 
+import Commands.CommandManager;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,22 +9,32 @@ import java.util.HashMap;
 
 public class Server {
 
+    //********************************************************************************************************//
+    //********************************************* CLASS FIELDS *********************************************//
+
     private int port=9090;
     private ServerSocket serverSocket;
     private boolean running;
     private int connections;
 
     private HashMap<String, ServerThread> users;
+    private CommandManager commandManager;
 
+    //********************************************************************************************************//
+    //******************************************** CLASS METHODS *********************************************//
+
+    //*** Constructor ***
     public Server(){
 
         this.running = false;
         this.users =  new HashMap<>();
 
+        this.commandManager = CommandManager.getInstance();
+
         this.connections=0;
     }
 
-    public void initServer(){
+    public void run(){
 
         try {
 
@@ -65,15 +77,8 @@ public class Server {
 
     }
 
-    public void broadcast(String content, ServerThread userExcluded){
 
-        for( String userName: this.users.keySet()){
-
-            this.users.get(userName).sendMessage(content);
-        }
-
-    }
-
+    //*** Setters & Getters
     public int getPort() {
         return port;
     }
@@ -86,8 +91,24 @@ public class Server {
         return this.running;
     }
 
+    public CommandManager getCommandManager() {
+        return this.commandManager;
+    }
+
+    //*** Client Communication ***
+    public void broadcast(String content, ServerThread userExcluded){
+
+        for( String userName: this.users.keySet()){
+
+            this.users.get(userName).sendMessage(content);
+        }
+
+    }
+
+
+    //*** Main ***
     public static  void  main(String[] args){
         Server server=new Server();
-        server.initServer();
+        server.run();
     }
 }

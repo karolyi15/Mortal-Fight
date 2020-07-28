@@ -1,13 +1,22 @@
 package ServerConection;
 
+import Commands.iCommand;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class ServerThread extends Thread{
+
+    //********************************************************************************************************//
+    //********************************************* CLASS FIELDS *********************************************//
 
     private Server server;
     private Socket socket;
     private PrintWriter writer;
+
+    //********************************************************************************************************//
+    //******************************************** CLASS METHODS *********************************************//
 
     public ServerThread(Socket socket, Server server) {
         this.socket=socket;
@@ -40,7 +49,12 @@ public class ServerThread extends Thread{
                 inputData = reader.readLine();
                 //Print on Server Console
                 System.out.print(inputData+"\n");
-                this.server.broadcast(inputData,this);
+
+                //Execute Command
+                String[] tokenizedCommand = this.tokenizer(inputData);
+                iCommand command = this.server.getCommandManager().getCommand(tokenizedCommand[1]);
+                command.execute(tokenizedCommand,this);
+
 
             } while (!inputData.equals("bye"));
 
@@ -54,9 +68,17 @@ public class ServerThread extends Thread{
         }
     }
 
+    private String[] tokenizer(String input){
+
+        return input.split("\\s+");
+    }
 
     public void sendMessage(String message){
         this.writer.println(message);
+    }
+
+    public void broadcast(String message){
+        this.server.broadcast(message,this);
     }
 
 }
