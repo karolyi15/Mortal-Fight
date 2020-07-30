@@ -3,6 +3,7 @@ package Controllers.Views;
 import Controllers.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class    TitleScene_Controller {
@@ -24,6 +25,13 @@ public class    TitleScene_Controller {
     //******************************************** CLASS METHODS *********************************************//
 
     //*** Initialize ***
+    @FXML
+    private void initialize(){
+
+        this.logo_ImageView.setImage(new Image("file:Resources/Imgs/Title_Img.jpeg"));
+        this.logo_ImageView.setX(6);
+    }
+
     public void initScene(){
 
         //this.mainApp.playMusic("Resources/Sounds/Title_Music.mp3");

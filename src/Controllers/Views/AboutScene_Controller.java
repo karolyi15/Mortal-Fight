@@ -2,7 +2,6 @@ package Controllers.Views;
 
 import Controllers.Main;
 import Controllers.Models.Message;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -39,7 +38,7 @@ public class AboutScene_Controller {
     private void initialize(){
 
         //*** Initialize Table View ***
-        this.messageId_TableColumn.setCellValueFactory(cellData->cellData.getValue().getId());
+        this.messageId_TableColumn.setCellValueFactory(cellData->cellData.getValue().getSubject());
 
         //*** Clear Text Area ***
         this.showMessage(null);
@@ -69,7 +68,7 @@ public class AboutScene_Controller {
 
         if(message != null){
 
-            this.messageId_Label.setText(message.getId().getValue());
+            this.messageId_Label.setText(message.getSubject().getValue());
             this.content_TextArea.setText(message.getContent().getValue());
 
         }else{

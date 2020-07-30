@@ -2,10 +2,7 @@ package Controllers;
 
 import Controllers.Models.Message;
 import Controllers.Models.User;
-import Controllers.Views.AboutScene_Controller;
-import Controllers.Views.GameScene_Controller;
-import Controllers.Views.MenuScene_Controller;
-import Controllers.Views.TitleScene_Controller;
+import Controllers.Views.*;
 import ServerConection.Client;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -145,7 +142,7 @@ public class Main extends Application {
             //Set Title Scene Controller
             TitleScene_Controller controller = loader.getController();
             controller.setMainApp(this);
-            controller.initScene();
+            //controller.initScene();
 
             //Set Scene to Root Layout
             this.rootLayout.setCenter(titleScene);
@@ -196,6 +193,26 @@ public class Main extends Application {
 
         }catch (IOException e){
 
+            e.printStackTrace();
+        }
+    }
+
+    public void showTeamScene(){
+
+        try{
+            //Load Fxml File
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("Views/TeamScene_UI.fxml"));
+            AnchorPane teamScene = (AnchorPane) loader.load();
+
+            //Set Team Scene Controller
+            TeamScene_Controller controller = loader.getController();
+            controller.setMainApp(this);
+
+            //Set Team Scene to Root Layout
+            this.rootLayout.setCenter(teamScene);
+
+        }catch (IOException e){
             e.printStackTrace();
         }
     }

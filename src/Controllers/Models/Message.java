@@ -8,28 +8,28 @@ public class Message {
     //********************************************************************************************************//
     //********************************************* CLASS FIELDS *********************************************//
 
-    private StringProperty id;
+    private StringProperty subject;
     private StringProperty content;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
 
     //*** Constructor ***
-    public Message(String id,String content){
+    public Message(String subject,String content){
 
-        this.id = new SimpleStringProperty(id);
+        this.subject = new SimpleStringProperty(subject);
         this.content = new SimpleStringProperty(content);
     }
 
     //*** Setters & Getters ***
-    public StringProperty getId() {
+    public StringProperty getSubject() {
 
-        return id;
+        return subject;
     }
 
-    public void setId(String id) {
+    public void setSubject(String subject) {
 
-        this.id = new SimpleStringProperty(id);
+        this.subject = new SimpleStringProperty(subject);
     }
 
     public StringProperty getContent() {

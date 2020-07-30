@@ -79,7 +79,7 @@ public class MenuScene_Controller {
 
             this.mainApp.setActiveUser(selectedUser);
 
-            this.mainApp.showGameScene();
+            this.mainApp.showTeamScene();
         }else{
 
             //No user selected
