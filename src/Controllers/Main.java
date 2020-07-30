@@ -14,23 +14,36 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
     //********************************************************************************************************//
     //********************************************* CLASS FIELDS *********************************************//
 
+    //*** Scene System ***
     private Stage primaryStage;
     private BorderPane rootLayout;
 
+    //*** Sound System ***
     private MediaPlayer musicPlayer;
     private MediaPlayer soundPlayer;
 
+    //*** Data Base System ***
+    private JSONObject dataBase;
+
+    //*** Display System ***
     private ObservableList<User> userData;
     private ObservableList<Message> messageData;
+
+    //*** User System ***
     private User activeUser;
 
     //*** Server Connection ***
@@ -42,38 +55,43 @@ public class Main extends Application {
     //*** Constructor ***
     public Main(){
 
-        this.serverClient =  new Client();
-
+        //*** Init Display System ***
         this.userData = FXCollections.observableArrayList();
         this.messageData = FXCollections.observableArrayList();
 
-        this.userData.add(new User("manolo"));
-        this.userData.add(new User("tetaslocas",1,1,1,1,1,1));
+        //*** Init Data Base System ***
+        this.loadLocalDataBase();
 
-        this.messageData.add(new Message("About","Developer : Gunther Karolyi"));
+        //*** Init Server Connection ***
+        this.serverClient =  new Client();
+
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        //*** Init Stage System ***
         this.primaryStage=primaryStage;
         this.primaryStage.setTitle("Mortal Fight");
         this.primaryStage.setResizable(false);
 
+        //*** Show Title Scene ***
         this.initRootLayout();
         this.showTitleScene();
 
     }
 
     //*** Setters & Getters ***
-
-
     public ObservableList<User> getUserData() {
         return userData;
     }
 
     public ObservableList<Message> getMessageData() {
         return messageData;
+    }
+
+    public void setMessageData(ObservableList<Message> messageData) {
+        this.messageData = messageData;
     }
 
     public User getActiveUser() {
@@ -233,6 +251,54 @@ public class Main extends Application {
 
             //Set Game Scene to Root Layout
             this.rootLayout.setCenter(gameScene);
+
+        }catch (IOException e){
+
+            e.printStackTrace();
+        }
+    }
+
+    //*** Data Management ***
+    public void loadLocalDataBase(){
+
+        JSONParser parser = new JSONParser();
+
+        try(Reader reader = new FileReader("Resources/LocalDataBase.json")){
+
+            this.dataBase = (JSONObject) parser.parse(reader);
+            JSONArray userData = (JSONArray) dataBase.get("UserData");
+            this.parseUserData(userData);
+
+        }catch (IOException e){
+
+            e.printStackTrace();
+
+        }catch (ParseException e){
+
+            e.printStackTrace();
+
+        }
+    }
+
+    private void parseUserData(JSONArray userData){
+        ArrayList<User> userList = new ArrayList<>();
+        for(int user=0; user<userData.size();user++){
+
+            JSONObject tempUser = (JSONObject) userData.get(user);
+            userList.add(new User((String) tempUser.get("Username"),(long) tempUser.get("Wins"),(long) tempUser.get("Looses"),(long) tempUser.get("Attack"),(long) tempUser.get("Success"),(long) tempUser.get("Failed"),(long) tempUser.get("GiveUp")));
+
+        }
+
+        this.userData.addAll(userList);
+    }
+
+    public void updateLocalDataBase(String dataName, JSONArray data){
+
+        this.dataBase.put(dataName,data);
+
+        try(FileWriter file = new FileWriter("Resources/LocalDataBase.json")){
+
+            file.write(this.dataBase.toJSONString());
 
         }catch (IOException e){
 

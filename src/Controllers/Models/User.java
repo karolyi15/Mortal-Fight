@@ -1,9 +1,6 @@
 package Controllers.Models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import org.json.simple.JSONObject;
 
 public class User {
@@ -11,13 +8,16 @@ public class User {
     //********************************************************************************************************//
     //********************************************* CLASS FIELDS *********************************************//
 
+    //*** User Stats ***
     private StringProperty username;
-    private IntegerProperty wins;
-    private IntegerProperty looses;
-    private IntegerProperty attack;
-    private IntegerProperty success;
-    private IntegerProperty failed;
-    private IntegerProperty giveUp;
+    private LongProperty wins;
+    private LongProperty looses;
+    private LongProperty attack;
+    private LongProperty success;
+    private LongProperty failed;
+    private LongProperty giveUp;
+
+    //*** User Team ***
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -26,26 +26,28 @@ public class User {
     public User(String userName){
 
         this.username =new SimpleStringProperty(userName);
-        this.wins = new SimpleIntegerProperty(0);
-        this.looses = new SimpleIntegerProperty(0);
-        this.attack = new SimpleIntegerProperty(0);
-        this.success = new SimpleIntegerProperty(0);
-        this.failed = new SimpleIntegerProperty(0);
-        this.giveUp = new SimpleIntegerProperty(0);
+        this.wins = new SimpleLongProperty(0);
+        this.looses = new SimpleLongProperty(0);
+        this.attack = new SimpleLongProperty(0);
+        this.success = new SimpleLongProperty(0);
+        this.failed = new SimpleLongProperty(0);
+        this.giveUp = new SimpleLongProperty(0);
     }
 
-    public User(String userName, int wins, int looses, int attack, int success, int failed, int giveUp){
+    public User(String userName, long wins, long looses, long attack, long success, long failed, long giveUp){
 
         this.username = new SimpleStringProperty(userName);
-        this.wins = new SimpleIntegerProperty(wins);
-        this.looses = new SimpleIntegerProperty(looses);
-        this.attack = new SimpleIntegerProperty(attack);
-        this.success = new SimpleIntegerProperty(success);
-        this.failed = new SimpleIntegerProperty(failed);
-        this.giveUp = new SimpleIntegerProperty(giveUp);
+        this.wins = new SimpleLongProperty(wins);
+        this.looses = new SimpleLongProperty(looses);
+        this.attack = new SimpleLongProperty(attack);
+        this.success = new SimpleLongProperty(success);
+        this.failed = new SimpleLongProperty(failed);
+        this.giveUp = new SimpleLongProperty(giveUp);
     }
 
     //*** Setters & Getters ***
+
+
     public String getUsername() {
         return username.get();
     }
@@ -58,91 +60,91 @@ public class User {
         this.username.set(username);
     }
 
-    public int getWins() {
+    public long getWins() {
         return wins.get();
     }
 
-    public IntegerProperty winsProperty() {
+    public LongProperty winsProperty() {
         return wins;
     }
 
-    public void setWins(int wins) {
+    public void setWins(long wins) {
         this.wins.set(wins);
     }
 
-    public int getLooses() {
+    public long getLooses() {
         return looses.get();
     }
 
-    public IntegerProperty loosesProperty() {
+    public LongProperty loosesProperty() {
         return looses;
     }
 
-    public void setLooses(int looses) {
+    public void setLooses(long looses) {
         this.looses.set(looses);
     }
 
-    public int getAttack() {
+    public long getAttack() {
         return attack.get();
     }
 
-    public IntegerProperty attackProperty() {
+    public LongProperty attackProperty() {
         return attack;
     }
 
-    public void setAttack(int attack) {
+    public void setAttack(long attack) {
         this.attack.set(attack);
     }
 
-    public int getSuccess() {
+    public long getSuccess() {
         return success.get();
     }
 
-    public IntegerProperty successProperty() {
+    public LongProperty successProperty() {
         return success;
     }
 
-    public void setSuccess(int success) {
+    public void setSuccess(long success) {
         this.success.set(success);
     }
 
-    public int getFailed() {
+    public long getFailed() {
         return failed.get();
     }
 
-    public IntegerProperty failedProperty() {
+    public LongProperty failedProperty() {
         return failed;
     }
 
-    public void setFailed(int failed) {
+    public void setFailed(long failed) {
         this.failed.set(failed);
     }
 
-    public int getGiveUp() {
+    public long getGiveUp() {
         return giveUp.get();
     }
 
-    public IntegerProperty giveUpProperty() {
+    public LongProperty giveUpProperty() {
         return giveUp;
     }
 
-    public void setGiveUp(int giveUp) {
+    public void setGiveUp(long giveUp) {
         this.giveUp.set(giveUp);
     }
 
     //*** Send User Data ***
-    public String toJson(){
+    public JSONObject toJson(){
 
         JSONObject userJson = new JSONObject();
 
-        userJson.put("userName",this.username);
-        userJson.put("wins",this.wins);
-        userJson.put("looses",this.looses);
-        userJson.put("attack",this.attack);
-        userJson.put("success",this.success);
-        userJson.put("failed",this.failed);
-        userJson.put("giveUp",this.giveUp);
+        userJson.put("Username",this.username.getValue());
+        userJson.put("Wins",this.wins.getValue());
+        userJson.put("Looses",this.looses.getValue());
+        userJson.put("Attack",this.attack.getValue());
+        userJson.put("Success",this.success.getValue());
+        userJson.put("Failed",this.failed.getValue());
+        userJson.put("GiveUp",this.giveUp.getValue());
 
-        return userJson.toJSONString();
+        return userJson;
     }
 }

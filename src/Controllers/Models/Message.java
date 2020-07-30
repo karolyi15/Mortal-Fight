@@ -2,12 +2,14 @@ package Controllers.Models;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.json.simple.JSONObject;
 
 public class Message {
 
     //********************************************************************************************************//
     //********************************************* CLASS FIELDS *********************************************//
 
+    //*** Message Data ***
     private StringProperty subject;
     private StringProperty content;
 
@@ -40,5 +42,16 @@ public class Message {
     public void setContent(String content) {
 
         this.content = new SimpleStringProperty(content);
+    }
+
+    //*** Send Message Data ***
+    public JSONObject toJson(){
+
+        JSONObject messageJson = new JSONObject();
+
+        messageJson.put("Subject",this.subject);
+        messageJson.put("Content",this.content);
+
+        return messageJson;
     }
 }

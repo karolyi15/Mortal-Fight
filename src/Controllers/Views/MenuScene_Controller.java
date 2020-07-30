@@ -4,6 +4,7 @@ import Controllers.Main;
 import Controllers.Models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.json.simple.JSONArray;
 
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ public class MenuScene_Controller {
     private Button createUser_Button;
     @FXML
     private Button deleteUser_Button;
+    @FXML
+    private Button return_Button;
 
     //*** Labels ***
     @FXML
@@ -105,6 +108,7 @@ public class MenuScene_Controller {
         if(username.isPresent()){
 
             this.users_TableView.getItems().add(new User(username.get()));
+            this.saveUsers();
         }
     }
 
@@ -115,6 +119,7 @@ public class MenuScene_Controller {
 
         if(selectedIndex>=0) {
             this.users_TableView.getItems().remove(selectedIndex);
+            this.saveUsers();
         }else{
 
             //No user selected
@@ -125,6 +130,12 @@ public class MenuScene_Controller {
 
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    private void onHandleReturn(){
+
+        this.mainApp.showTitleScene();
     }
 
     //*** Display Information ***
@@ -150,6 +161,19 @@ public class MenuScene_Controller {
             this.failed_Label.setText("");
             this.giveUp_Label.setText("");
         }
+    }
+
+    //*** Data Base ***
+    private void saveUsers(){
+
+        JSONArray userData = new JSONArray();
+
+        for(int user=0; user<this.mainApp.getUserData().size();user++){
+
+            userData.add(this.mainApp.getUserData().get(user).toJson());
+        }
+
+        this.mainApp.updateLocalDataBase("UserData",userData);
     }
 
 }

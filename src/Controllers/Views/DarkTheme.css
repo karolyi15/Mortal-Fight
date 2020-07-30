@@ -1,5 +1,5 @@
 .background {
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #ea931f;
 }
 
 .label {
@@ -104,18 +104,18 @@
     -fx-background-color: #1d1d1d;
     -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: lawngreen;
+    -fx-text-fill: #ea931f;
 }
 
 .button {
     -fx-padding: 5 22 5 22;
-    -fx-border-color: #e2e2e2;
+    -fx-border-color: #fffeff;
     -fx-border-width: 2;
     -fx-background-radius: 0;
     -fx-background-color: #1d1d1d;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #fffeff;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
