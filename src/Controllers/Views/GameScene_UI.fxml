@@ -9,21 +9,21 @@
    <children>
       <SplitPane dividerPositions="0.7014028056112225" layoutX="199.0" layoutY="132.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="900.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background-black">
                <children>
                   <SplitPane dividerPositions="0.17222222222222222" layoutX="115.0" layoutY="69.0" prefHeight="345.0" prefWidth="900.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="150.0">
+                      <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="150.0" styleClass="background-black">
                            <children>
                               <TextArea fx:id="gameLog_TextArea" editable="false" layoutX="-12.0" layoutY="38.0" prefHeight="344.0" prefWidth="150.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="100.0" />
+                      <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="100.0" styleClass="background-black" />
                     </items>
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="145.0" prefWidth="160.0">
+          <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="145.0" prefWidth="160.0" styleClass="background-black">
                <children>
                   <TextArea fx:id="console_TextArea" editable="false" layoutX="159.0" layoutY="-22.0" prefHeight="77.0" prefWidth="800.0" wrapText="true" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0" />
                   <TextField fx:id="userInput_TextField" layoutX="59.0" layoutY="92.0" prefHeight="32.0" prefWidth="800.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="92.0" />

@@ -175,7 +175,13 @@ public class ManagerScene_Controller {
                     this.mainApp.showTeamScene();
 
                 }else{
-                    System.out.println("Error while creating lobby");
+
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Error while creating lobby");
+
+                    alert.showAndWait();
                 }
 
             }catch (ParseException e){

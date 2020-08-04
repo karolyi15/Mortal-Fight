@@ -15,7 +15,7 @@ public class ServerLobby {
     private UserConnection playerHost;
     private UserConnection playerClient;
 
-    private Thread stateManager;
+    private Thread updater;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -23,65 +23,56 @@ public class ServerLobby {
     //*** Constructor ***
     public ServerLobby(Server server, String hostUsername, UserConnection playerHost){
 
+        this.server = server;
         this.hostUsername = hostUsername;
 
-        this.server = server;
         this.playerHost = playerHost;
-
-        this.playerHost.setConnectionState(ConnectionState.WAITING);
         this.waitPlayer();
    }
 
     //*** Destructor ***
     public void terminateLobby(){
 
-        this.stateManager.stop();
         this.server.deleteLobby(this);
     }
 
+    private boolean gameReady(){
+
+        if(this.playerHost.getConnectionState()==ConnectionState.READY && this.playerClient.getConnectionState()==ConnectionState.READY){
+            return true;
+        }
+
+        return false;
+    }
+
+
     public synchronized boolean join(UserConnection player){
 
-        if(this.playerClient == null) {
-
-            System.out.println("New player join " + this.hostUsername + "'s lobby");
+        if(this.playerClient == null){
 
             this.playerClient = player;
 
             this.playerHost.setConnectionState(ConnectionState.SELECTING);
             this.playerClient.setConnectionState(ConnectionState.SELECTING);
+
             return true;
 
         }else{
-
             return false;
         }
     }
 
-    public synchronized void waitPlayer(){
+    private void waitPlayer(){
 
-        this.stateManager = new Thread(){
+        this.updater = new Thread(){
 
             public void run(){
 
-                while(!playerHost.getConnectionState().equals(ConnectionState.FINISHED)){
+                while(!gameReady()){
 
                     try {
-                        if (playerClient != null) {
 
-                            if (playerHost.getConnectionState().equals(ConnectionState.READY) && playerClient.getConnectionState().equals(ConnectionState.READY)) {
-
-                                //Create Game
-                                System.out.println("New Game Created");
-                                terminateLobby();
-                            }
-
-                        } else {
-
-                            playerHost.setConnectionState(ConnectionState.WAITING);
-                        }
-
-                        //Wait for 3 seconds
-                        stateManager.sleep(3000);
+                        updater.sleep(3000);
 
                     }catch (InterruptedException e){
 
@@ -89,13 +80,17 @@ public class ServerLobby {
                     }
                 }
 
-                terminateLobby();
 
+                new Game(playerHost, playerClient);
+                terminateLobby();
             }
         };
 
-        this.stateManager.start();
-   }
+        this.updater.start();
+
+    }
+
+
 
     //*** Setters & Getters ***
 

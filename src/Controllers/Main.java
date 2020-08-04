@@ -283,12 +283,12 @@ public class Main extends Application {
             //Load Fxml File
             FXMLLoader loader =  new FXMLLoader();
             loader.setLocation(Main.class.getResource("Views/GameScene_UI.fxml"));
-            AnchorPane gameScene = loader.load();
+            AnchorPane gameScene = (AnchorPane) loader.load();
 
             //Set Controller to Game Scene
             GameScene_Controller controller = loader.getController();
             controller.setMainApp(this);
-            controller.initGameScene();
+            //controller.initGameScene();
 
             //Set Game Scene to Root Layout
             this.rootLayout.setCenter(gameScene);

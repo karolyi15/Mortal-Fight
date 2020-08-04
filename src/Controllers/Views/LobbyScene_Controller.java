@@ -11,6 +11,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,8 @@ public class LobbyScene_Controller {
     private Client client;
     private ArrayList<ComboBox> selectedCharacters;
     private ArrayList<CharacterType> availableCharacters;
+
+    private Thread updater;
 
     //*** Buttons ***
     @FXML
@@ -124,6 +128,7 @@ public class LobbyScene_Controller {
     }
 
 
+
     //*** Button Handlers ***
     @FXML
     private void onHandleReady(){
@@ -142,6 +147,7 @@ public class LobbyScene_Controller {
             connectionData.put("Connection",ConnectionState.READY.toString());
 
             this.client.writeOutput(connectionData.toJSONString());
+            this.mainApp.showGameScene();
 
         }else{
             //Missing Character
@@ -159,7 +165,7 @@ public class LobbyScene_Controller {
 
         JSONObject jsonOutput = new JSONObject();
         jsonOutput.put("Request",4);
-        jsonOutput.put("Connection",ConnectionState.FINISHED);
+        jsonOutput.put("Connection",ConnectionState.FINISHED.toString());
 
         this.client.writeOutput(jsonOutput.toJSONString());
 

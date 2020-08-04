@@ -110,7 +110,7 @@ public class Server {
         }
 
         jsonOutput.put("ActiveLobbies",jsonArrayLobbies);
-
+        System.out.println("Active lobbies: "+jsonOutput.toJSONString());
         return jsonOutput;
     }
 
@@ -148,13 +148,15 @@ public class Server {
         return jsonOutput;
     }
 
-    public void deleteLobby(ServerLobby lobby){
+    public synchronized void deleteLobby(ServerLobby lobby){
 
         for(String lobbyID : this.activeLobbies.keySet()){
 
             if(this.activeLobbies.get(lobbyID).equals(lobby)){
 
-                this.activeLobbies.remove(lobbyID);
+               this.activeLobbies.remove(lobbyID);
+
+                break;
             }
         }
     }
