@@ -5,8 +5,10 @@ import Controllers.Models.User;
 import Controllers.Views.*;
 import ServerConection.Client;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -14,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,7 +24,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends Application {
 
@@ -64,6 +66,7 @@ public class Main extends Application {
 
         //*** Init Server Connection ***
         this.serverClient =  new Client();
+        this.serverClient.start();
 
     }
 
@@ -74,6 +77,24 @@ public class Main extends Application {
         this.primaryStage=primaryStage;
         this.primaryStage.setTitle("Mortal Fight");
         this.primaryStage.setResizable(false);
+
+        //Custom Close Method
+        this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+
+                if(serverClient.isRunning()){
+
+                    JSONObject jsonOutput = new JSONObject();
+                    jsonOutput.put("Request",-1);
+                    serverClient.writeOutput(jsonOutput.toJSONString());
+                    serverClient.terminateClient();
+                }
+
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 
         //*** Show Title Scene ***
         this.initRootLayout();
@@ -133,7 +154,7 @@ public class Main extends Application {
 
             //Load Fxml File
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("Views/RootLayout.fxml"));
+            loader.setLocation(Main.class.getResource("Views/_RootLayout.fxml"));
             this.rootLayout = (BorderPane) loader.load();
 
             //Create Scene
@@ -177,11 +198,11 @@ public class Main extends Application {
 
             //Load Fxml File
             FXMLLoader loader =  new FXMLLoader();
-            loader.setLocation(Main.class.getResource("Views/MenuScene_UI.fxml"));
+            loader.setLocation(Main.class.getResource("Views/SingUpScene_UI.fxml"));
             AnchorPane menuScene = (AnchorPane) loader.load();
 
             //Set Controller to Menu Scene
-            MenuScene_Controller controller = loader.getController();
+            SingUpScene_Controller controller = loader.getController();
             controller.setMainApp(this);
 
             //Set Menu Scene to Root Layout
@@ -215,16 +236,36 @@ public class Main extends Application {
         }
     }
 
+    public void showRoomsScene(){
+
+        try{
+            //Load Fxml File
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("Views/ManagerScene_UI.fxml"));
+            AnchorPane roomsScene = (AnchorPane) loader.load();
+
+            //Set Team Scene Controller
+            ManagerScene_Controller controller = loader.getController();
+            controller.setMainApp(this);
+
+            //Set Team Scene to Root Layout
+            this.rootLayout.setCenter(roomsScene);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public void showTeamScene(){
 
         try{
             //Load Fxml File
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("Views/TeamScene_UI.fxml"));
+            loader.setLocation(Main.class.getResource("Views/LobbyScene_UI.fxml"));
             AnchorPane teamScene = (AnchorPane) loader.load();
 
             //Set Team Scene Controller
-            TeamScene_Controller controller = loader.getController();
+            LobbyScene_Controller controller = loader.getController();
             controller.setMainApp(this);
 
             //Set Team Scene to Root Layout
@@ -258,7 +299,7 @@ public class Main extends Application {
         }
     }
 
-    //*** Data Management ***
+    //*** Data Base Management ***
     public void loadLocalDataBase(){
 
         JSONParser parser = new JSONParser();

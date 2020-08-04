@@ -1,6 +1,6 @@
 package Commands;
 
-import ServerConection.ServerThread;
+import ServerConection.UserConnection;
 
 public class NotFoundCommand implements iCommand{
 
@@ -11,8 +11,8 @@ public class NotFoundCommand implements iCommand{
     }
 
     @Override
-    public void execute(String[] args, ServerThread serverThread){
+    public void execute(String[] args, UserConnection userConnection){
 
-        serverThread.sendMessage("Command not found");
+        //userConnection.sendMessage("Command not found");
     }
 }

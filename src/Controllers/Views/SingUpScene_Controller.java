@@ -8,7 +8,7 @@ import org.json.simple.JSONArray;
 
 import java.util.Optional;
 
-public class MenuScene_Controller {
+public class SingUpScene_Controller {
 
     //********************************************************************************************************//
     //********************************************* CLASS FIELDS *********************************************//
@@ -82,7 +82,7 @@ public class MenuScene_Controller {
 
             this.mainApp.setActiveUser(selectedUser);
 
-            this.mainApp.showTeamScene();
+            this.mainApp.showRoomsScene();
         }else{
 
             //No user selected

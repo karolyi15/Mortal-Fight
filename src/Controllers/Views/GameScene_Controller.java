@@ -37,7 +37,7 @@ public class GameScene_Controller {
 
         this.onHandleSendMessage();
         this.showUserInformation();
-        this.mainApp.getServerClient().initClient(this.console_TextArea);
+        //this.mainApp.getServerClient().initClient();
     }
 
     //*** Setters & Getters ***
@@ -76,7 +76,7 @@ public class GameScene_Controller {
 
                 if(keyEvent.getCode().equals(KeyCode.ENTER)){
 
-                    mainApp.getServerClient().writeOutput("["+mainApp.getActiveUser().getUsername()+"]: "+userInput_TextField.getText());
+                    //mainApp.getServerClient().writeOutput("["+mainApp.getActiveUser().getUsername()+"]: "+userInput_TextField.getText());
                     userInput_TextField.clear();
                 }
 

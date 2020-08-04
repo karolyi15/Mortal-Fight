@@ -2,6 +2,11 @@
     -fx-background-color: #ea931f;
 }
 
+.background-black{
+
+    -fx-background-color: black;
+}
+
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
@@ -52,7 +57,7 @@
     -fx-font-size: 20pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
-    -fx-alignment: center-left;
+    -fx-alignment: top-center;
     -fx-opacity: 1;
 }
 

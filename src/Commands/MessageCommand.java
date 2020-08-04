@@ -1,6 +1,6 @@
 package Commands;
 
-import ServerConection.ServerThread;
+import ServerConection.UserConnection;
 
 import java.util.Arrays;
 
@@ -19,7 +19,7 @@ public class MessageCommand implements iCommand{
     }
 
     @Override
-    public void execute(String[] args, ServerThread serverThread){
+    public void execute(String[] args, UserConnection userConnection){
 
         String[] tokenizedMessage = Arrays.copyOfRange(args,2,args.length);
         String message="";
@@ -27,7 +27,7 @@ public class MessageCommand implements iCommand{
             message+= " "+tokenizedMessage[token];
         }
 
-        serverThread.broadcast(args[0]+message);
+        //userConnection.broadcast(args[0]+message);
     }
 
 }

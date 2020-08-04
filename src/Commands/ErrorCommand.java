@@ -1,6 +1,6 @@
 package Commands;
 
-import ServerConection.ServerThread;
+import ServerConection.UserConnection;
 
 public class ErrorCommand implements iCommand{
 
@@ -11,8 +11,8 @@ public class ErrorCommand implements iCommand{
     }
 
     @Override
-    public void execute(String[] args, ServerThread serverThread){
+    public void execute(String[] args, UserConnection userConnection){
 
-        serverThread.sendMessage("Error in command");
+        //userConnection.sendMessage("Error in command");
     }
 }

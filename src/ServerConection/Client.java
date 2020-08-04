@@ -1,6 +1,5 @@
 package ServerConection;
 
-import javafx.scene.control.TextArea;
 
 import java.io.*;
 import java.net.Socket;
@@ -8,19 +7,40 @@ import java.net.Socket;
 
 public class Client {
 
+    //********************************************************************************************************//
+    //********************************************* CLASS FIELDS *********************************************//
+
+    //*** Server Connection ***
     private int port = 9090;
     private String hostName = "localhost";
+
+    private Socket socket;
+    private boolean running;
+
+    private BufferedReader reader;
     private PrintWriter writer;
 
-    public void initClient(TextArea outputField) {
+    //********************************************************************************************************//
+    //******************************************** CLASS METHODS *********************************************//
+
+    public Client(){
+
+        //*** Connection State ***
+        this.running=false;
+    }
+
+    public void start() {
 
         try {
 
-            //Creates socket connection
-            Socket socket = new Socket(this.hostName, this.port);
+            this.running = true;
 
-            //Creates reader thread
-            new ReadThread(socket, this, outputField).start();
+            //Creates socket connection
+            this.socket = new Socket(this.hostName, this.port);
+
+            //Creates reader system
+            InputStream inputStream = socket.getInputStream();
+            this.reader = new BufferedReader(new InputStreamReader(inputStream));
 
             //Creates writer system
             OutputStream outputStream = socket.getOutputStream();
@@ -31,53 +51,38 @@ public class Client {
         }
     }
 
-    public void writeOutput(String message){
+    //*** Setters & Getters ***
 
-        this.writer.println(message);
-
+    public boolean isRunning() {
+        return this.running;
     }
 
-    //*** Inner Classes ***
-    private class ReadThread extends Thread {
+    //*** Connection State ***
 
-        private Socket socket;
-        private Client client;
-        private BufferedReader reader;
-        private TextArea output;
 
-        //*** Constructor ***
-        public ReadThread(Socket socket, Client client, TextArea output) {
-
-            this.socket = socket;
-            this.client = client;
-            this.output = output;
-
-            try {
-
-                InputStream inputStream = socket.getInputStream();
-                this.reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void run() {
-            while (true) {
-
-                try {
-
-                    String serverResponse = reader.readLine();
-                    this.output.appendText(serverResponse + "\n");
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
+    public void terminateClient(){
+        this.running=false;
     }
 
+    //*** Client Communication ***
+    public void writeOutput(String jsonInput){
+
+        this.writer.println(jsonInput);
+    }
+
+    public String readInput(){
+
+        try {
+
+            String inputString = this.reader.readLine();
+            return inputString;
+
+        }catch (IOException e){
+
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
 

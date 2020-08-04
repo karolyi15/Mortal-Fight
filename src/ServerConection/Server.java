@@ -1,8 +1,10 @@
 package ServerConection;
 
-import Commands.CommandManager;
 
-import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -12,13 +14,15 @@ public class Server {
     //********************************************************************************************************//
     //********************************************* CLASS FIELDS *********************************************//
 
+    //*** Sever Socket***
     private int port=9090;
     private ServerSocket serverSocket;
-    private boolean running;
-    private int connections;
 
-    private HashMap<String, ServerThread> users;
-    private CommandManager commandManager;
+    //*** Server State ***
+    private boolean running;
+
+    //*** Server Register ***
+    private HashMap<String, ServerLobby> activeLobbies;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -26,12 +30,11 @@ public class Server {
     //*** Constructor ***
     public Server(){
 
+        //*** Init Sever State
         this.running = false;
-        this.users =  new HashMap<>();
 
-        this.commandManager = CommandManager.getInstance();
-
-        this.connections=0;
+        //*** Init Lobby System ***
+        this.activeLobbies = new HashMap<>();
     }
 
     public void run(){
@@ -42,43 +45,41 @@ public class Server {
 
             //Creates a server socket, handle 50 queued connections
             this.serverSocket = new ServerSocket(port);
+            //Server State
             this.running = true;
             System.out.print("Server is listening in port: " + port+"\n");
+
 
             while (running) {
                 //*************** Init Client Socket ****************//
 
                 //Starts listening for incoming client requests
                 Socket socket = serverSocket.accept();
-                System.out.print("New client connected\n");
-                ServerThread tempThread = new ServerThread(socket,this);
-                this.users.put(String.valueOf(this.connections),tempThread);
-                this.connections++;
 
-                tempThread.start();
+                //Update Active Connections
+                System.out.println("*** New User Connected ***");
+
+                //Start User Connection
+                new UserConnection(this,socket).start();
 
             }
 
-
             this.serverSocket.close();
 
+        }catch(IOException e) {
 
-        }catch(IOException e){
-            e.printStackTrace(); }
+            System.out.println("Error while attempting to connect user");
+        }
 
     }
 
     public void terminateServer(){
 
-        //************** Terminate Server *****************//
-
         //All clients will be disconnected
-       this.running = false;
-
+        this.running = false;
     }
 
-
-    //*** Setters & Getters
+    //*** Setters & Getters ***
     public int getPort() {
         return port;
     }
@@ -91,18 +92,71 @@ public class Server {
         return this.running;
     }
 
-    public CommandManager getCommandManager() {
-        return this.commandManager;
-    }
 
-    //*** Client Communication ***
-    public void broadcast(String content, ServerThread userExcluded){
+    //*** Manage Lobbies ***
 
-        for( String userName: this.users.keySet()){
+    public synchronized JSONObject getLobbies(){
 
-            this.users.get(userName).sendMessage(content);
+        JSONObject jsonOutput = new JSONObject();
+        JSONArray jsonArrayLobbies = new JSONArray();
+
+        for(String lobbyID : this.activeLobbies.keySet()){
+
+            JSONObject tempLobby = new JSONObject();
+            tempLobby.put("LobbyID",lobbyID);
+            tempLobby.put("Host",this.activeLobbies.get(lobbyID).getHostUsername());
+
+            jsonArrayLobbies.add(tempLobby);
         }
 
+        jsonOutput.put("ActiveLobbies",jsonArrayLobbies);
+
+        return jsonOutput;
+    }
+
+    public synchronized JSONObject createLobby(String lobbyID, String hostUsername ,UserConnection user){
+
+        JSONObject jsonOutput = new JSONObject();
+
+        if(this.activeLobbies.containsKey(lobbyID)){
+            //Lobby already exist, cant create it
+            jsonOutput.put("RequestState",false);
+
+        }else{
+            //Creating Lobby
+            ServerLobby newLobby = new ServerLobby(this,hostUsername,user);
+            this.activeLobbies.put(lobbyID,newLobby);
+            jsonOutput.put("RequestState",true);
+        }
+
+        return jsonOutput;
+    }
+
+    public synchronized JSONObject joinLobby(String lobbyID, UserConnection user){
+
+        JSONObject jsonOutput = new JSONObject();
+
+        if(this.activeLobbies.containsKey(lobbyID) && this.activeLobbies.get(lobbyID).join(user)){
+            //Join Lobby
+            jsonOutput.put("RequestState", true);
+
+        }else{
+            //Lobby is no longer available
+            jsonOutput.put("RequestState",false);
+        }
+
+        return jsonOutput;
+    }
+
+    public void deleteLobby(ServerLobby lobby){
+
+        for(String lobbyID : this.activeLobbies.keySet()){
+
+            if(this.activeLobbies.get(lobbyID).equals(lobby)){
+
+                this.activeLobbies.remove(lobbyID);
+            }
+        }
     }
 
 
