@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class ServerUser {
 
     private UserConnection connection;
+    private Boolean tie;
 
     private String username;
     private long ranking;
@@ -133,6 +134,14 @@ public class ServerUser {
 
     //Setters & Getters
 
+
+    public Boolean getTie() {
+        return tie;
+    }
+
+    public void setTie(Boolean tie) {
+        this.tie = tie;
+    }
 
     public UserConnection getConnection() {
         return connection;

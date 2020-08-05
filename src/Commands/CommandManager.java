@@ -20,6 +20,8 @@ public class CommandManager {
         this.commands.put("message",MessageCommand.class);
         this.commands.put("selectCharacter",SelectCharacterCommand.class);
         this.commands.put("attack",AttackCommand.class);
+        this.commands.put("tie",TieCommand.class);
+        this.commands.put("passTurn",PassTurnCommand.class);
 
     }
 
