@@ -13,6 +13,7 @@ public class NotFoundCommand implements iCommand{
     @Override
     public void execute(String[] args, UserConnection userConnection){
 
-        //userConnection.sendMessage("Command not found");
+
+        userConnection.writeOutput("Command not found");
     }
 }

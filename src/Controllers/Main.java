@@ -61,6 +61,9 @@ public class Main extends Application {
         this.userData = FXCollections.observableArrayList();
         this.messageData = FXCollections.observableArrayList();
 
+        //*** Messages ***
+        this.generateMessages();
+
         //*** Init Data Base System ***
         this.loadLocalDataBase();
 
@@ -288,7 +291,6 @@ public class Main extends Application {
             //Set Controller to Game Scene
             GameScene_Controller controller = loader.getController();
             controller.setMainApp(this);
-            //controller.initGameScene();
 
             //Set Game Scene to Root Layout
             this.rootLayout.setCenter(gameScene);
@@ -345,6 +347,21 @@ public class Main extends Application {
 
             e.printStackTrace();
         }
+    }
+
+    //*** Message Data ***
+
+    private void generateMessages(){
+
+        String developersContent = "Developers Information:\n\nGuther Karolyi\nInstituto Tecnologico de Costa Rica\nkarolyi15@hotmail.com\n\nCarlos Rojas\nInstituto Tecnologico de Costa Rica";
+        Message developers = new Message("Developers",developersContent);
+
+        this.messageData.add(developers);
+
+        String versionContent = "Game version: 1.0";
+        Message version = new Message("Version",versionContent);
+
+        this.messageData.add(version);
     }
 
     public static void main(String[] args) {

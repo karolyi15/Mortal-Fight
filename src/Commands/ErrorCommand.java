@@ -13,6 +13,6 @@ public class ErrorCommand implements iCommand{
     @Override
     public void execute(String[] args, UserConnection userConnection){
 
-        //userConnection.sendMessage("Error in command");
+        userConnection.writeOutput("Error in command");
     }
 }

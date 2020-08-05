@@ -27,7 +27,7 @@ public class MessageCommand implements iCommand{
             message+= " "+tokenizedMessage[token];
         }
 
-        //userConnection.broadcast(args[0]+message);
+        userConnection.getGame().broadcast(args[0]+message);
     }
 
 }

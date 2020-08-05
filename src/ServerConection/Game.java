@@ -1,42 +1,73 @@
 package ServerConection;
 
 
+import Commands.CommandManager;
+import Commands.iCommand;
 import GameFactory.CharacterFactory;
 import GameFactory.WeaponFactory;
 import org.json.simple.JSONObject;
 
+import java.util.HashMap;
+
 public class Game {
 
-    private UserConnection host;
+
     private JSONObject hostUserData;
 
-    private UserConnection client;
+
     private JSONObject clientUserData;
 
+    private CommandManager commandManager;
 
+    private HashMap<String, UserConnection> players;
     private CharacterFactory characterFactory;
 
 
     public Game(UserConnection host, UserConnection client){
 
-
-        this.host = host;
-        this.client = client;
-
+        this.players = new HashMap<>();
         this.characterFactory = new CharacterFactory();
+        this.commandManager = CommandManager.getInstance();
+
+        this.players.put("Host",host);
+        this.players.put("Client",client);
+
+        this.initGame();
 
     }
 
     private void initGame(){
 
+        this.players.get("Host").setGame(this);
+        this.players.get("Client").setGame(this);
+
+        this.players.get("Host").setConnectionState(ConnectionState.PLAYING);
+        this.players.get("Client").setConnectionState(ConnectionState.WAITING);
     }
 
-    //Inner Classes
+    public synchronized void executeCommand(JSONObject jsonCommand,UserConnection user){
 
-    private class ServerUser{
+        if((long) jsonCommand.get("Request")==5){
 
-        public ServerUser(){
 
+            String[] tokenizedCommand = this.tokenizer((String) jsonCommand.get("Command"));
+
+            iCommand command =this.commandManager.getCommand(tokenizedCommand[1]);
+            command.execute(tokenizedCommand,user);
+        }
+
+    }
+
+    private String[] tokenizer(String input){
+
+        return input.split("\\s+");
+    }
+
+    public void broadcast(String output){
+
+        for(String playerKey : this.players.keySet()){
+
+            this.players.get(playerKey).writeOutput(output);
         }
     }
 

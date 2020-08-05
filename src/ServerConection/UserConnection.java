@@ -24,6 +24,7 @@ public class UserConnection extends Thread{
     private ConnectionState connectionState;
 
     private JSONObject gameInput;
+    private Game game;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -143,14 +144,14 @@ public class UserConnection extends Thread{
                this.parseConnectionState( (String) inputJson.get("Connection"));
                 System.out.println("Actual State: "+this.connectionState.toString());
 
-            }else if(requestID == 5){
-                //Game Command
-
-                this.gameInput = inputJson;
-
             }else{
 
-                System.out.println("Invalid request");
+                if(this.game!=null) {
+                    this.game.executeCommand(inputJson,this);
+                }else{
+                    this.writeOutput("Invalid Request");
+                    System.out.println("Invalid Request");
+                }
             }
 
         }catch (ParseException e){
@@ -191,5 +192,11 @@ public class UserConnection extends Thread{
         }
     }
 
+    public void setGame(Game game){
+        this.game = game;
+    }
 
+    public Game getGame() {
+        return this.game;
+    }
 }
