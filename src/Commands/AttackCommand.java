@@ -45,7 +45,7 @@ public class AttackCommand implements iCommand{
                         new MessageCommand().execute(userConnection.getConnection().getGame().tokenizer(message), userConnection);
 
                         //Check Game Over
-                        //userConnection.getConnection().getGame().isGameOver();
+                        userConnection.getConnection().getGame().isGameOver();
                         //Change Turn
                         userConnection.getConnection().getGame().changeTurn(userConnection);
 

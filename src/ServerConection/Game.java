@@ -16,6 +16,8 @@ public class Game {
     private HashMap<String, ServerUser> players;
     private CharacterFactory characterFactory;
 
+    private Thread bonus;
+
 
     public Game(UserConnection host, UserConnection client){
 
@@ -104,10 +106,26 @@ public class Game {
         return input.split("\\s+");
     }
 
-    public void isGameOver(){
+    public void surrender(ServerUser user){
+
+        JSONObject jsonWinner = new JSONObject();
+        JSONObject jsonLooser = new JSONObject();
+
+        jsonWinner.put("Request",-1);
+        jsonWinner.put("State","Winner");
+
+        jsonLooser.put("Request",-1);
+        jsonLooser.put("State","Looser");
+
+        user.getConnection().writeOutput(jsonLooser.toJSONString());
+        this.getEnemy(user).getConnection().writeOutput(jsonWinner.toJSONString());
+
+    }
+
+   public void isGameOver(){
 
 
-        if(this.players.get("Host").isGameOver()){
+        if(!this.players.get("Host").isAlive()){
             JSONObject jsonWinner = new JSONObject();
             JSONObject jsonLooser = new JSONObject();
 
@@ -121,7 +139,7 @@ public class Game {
             this.players.get("Host").getConnection().writeOutput(jsonLooser.toJSONString());
             this.players.get("Client").getConnection().writeOutput(jsonWinner.toJSONString());
 
-        }else if(this.players.get("Client").isGameOver()){
+        }else if(!this.players.get("Client").isAlive()){
             JSONObject jsonWinner = new JSONObject();
             JSONObject jsonLooser = new JSONObject();
 

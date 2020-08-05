@@ -84,8 +84,9 @@ public class Warrior  extends Character{
         return null;
     }
 
-
-
+    public ArrayList<Weapon> getListWeapons() {
+        return listWeapons;
+    }
 
     public CharacterType getCharacterType() {
         return character;

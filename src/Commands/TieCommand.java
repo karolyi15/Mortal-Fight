@@ -17,6 +17,7 @@ public class TieCommand implements iCommand{
         if(args.length>2){
 
             new ErrorCommand().execute(args,userConnection);
+
         }else{
 
 
@@ -24,21 +25,15 @@ public class TieCommand implements iCommand{
 
             if(userConnection.getConnection().getGame().getEnemy(userConnection).getTie()){
                 //Its Tie
-                System.out.println("Game Over");
+               userConnection.getConnection().getGame().surrender(userConnection);
 
             }else{
-                String message =args[0]+"message proposes a tie";
+                String message =args[0]+"proposes x a tie";
                 String[] tokenizedMessage = userConnection.getConnection().getGame().tokenizer(message);
                 new MessageCommand().execute(tokenizedMessage,userConnection);
             }
 
 
         }
-        JSONObject jsonOutput = new JSONObject();
-        jsonOutput.put("Request",5);
-        jsonOutput.put("Command",this.getCommandName());
-        jsonOutput.put("Message","Error in command");
-
-        userConnection.getConnection().writeOutput(jsonOutput.toJSONString());
     }
 }

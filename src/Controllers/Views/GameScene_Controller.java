@@ -208,6 +208,7 @@ public class GameScene_Controller {
     //***
 
     public void endGame(String State){
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Game Over");
 
@@ -320,7 +321,9 @@ public class GameScene_Controller {
 
                 }else if((long)inputJson.get("Request") == -1){
 
-                    //controller.endGame((String) inputJson.get("State"));
+
+                    this.terminate((String) inputJson.get("State"));
+
                     System.out.println("Juego terminado");
                 }
 
@@ -328,6 +331,11 @@ public class GameScene_Controller {
 
                 e.printStackTrace();
             }
+        }
+
+        private void terminate(String state){
+            controller.endGame(state);
+            this.stop();
         }
 
     }

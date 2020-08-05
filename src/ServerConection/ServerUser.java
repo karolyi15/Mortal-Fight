@@ -1,9 +1,7 @@
 package ServerConection;
 
+import GameFactory.*;
 import GameFactory.Character;
-import GameFactory.CharacterStyle;
-import GameFactory.CharacterType;
-import GameFactory.ElementType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -30,6 +28,7 @@ public class ServerUser {
 
         this.characters = new HashMap<>();
 
+        this.tie =false;
         this.connection = connection;
         JSONObject userData = (JSONObject) inputJson.get("User");
 
@@ -220,7 +219,7 @@ public class ServerUser {
 
     //Communication
 
-    public boolean isGameOver(){
+    public boolean isAlive(){
 
         boolean alive = false;
 
@@ -232,6 +231,23 @@ public class ServerUser {
         }
 
         return alive;
+    }
+
+    public boolean canReload(){
+
+        boolean reload =true;
+        for(String characterID : this.characters.keySet()) {
+
+            Warrior tempWarrior = (Warrior) this.characters.get(characterID);
+            for (int weapon=0;weapon<tempWarrior.getListWeapons().size();weapon++){
+
+                if(tempWarrior.getListWeapons().get(weapon).getState()){
+                    reload=false;
+                }
+            }
+        }
+
+        return reload;
     }
 
     public JSONObject userStatsJson(){
