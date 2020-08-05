@@ -29,7 +29,7 @@ public abstract class Character {
 
     public abstract ElementType getElement();
     public abstract void setElement(ElementType element);
-
+    public abstract Weapon getWeapon(WeaponType weaponType);
     public abstract void getData();
     public abstract JSONObject toJson();
 }

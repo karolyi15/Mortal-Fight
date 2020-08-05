@@ -320,7 +320,8 @@ public class GameScene_Controller {
 
                 }else if((long)inputJson.get("Request") == -1){
 
-                    controller.endGame((String) inputJson.get("State"));
+                    //controller.endGame((String) inputJson.get("State"));
+                    System.out.println("Juego terminado");
                 }
 
             }catch (ParseException e){

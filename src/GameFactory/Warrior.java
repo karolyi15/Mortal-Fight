@@ -84,6 +84,9 @@ public class Warrior  extends Character{
         return null;
     }
 
+
+
+
     public CharacterType getCharacterType() {
         return character;
     }

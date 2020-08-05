@@ -35,20 +35,51 @@ public class Game {
 
     private void initGame(){
 
+
+        JSONObject message = new JSONObject();
+        message.put("Request", 5);
+        message.put("Command", "Message Command");
+
+
         this.players.get("Host").getConnection().setConnectionState(ConnectionState.PLAYING);
+        message.put("Message","[System] *** Your Turn ***");
+        this.players.get("Host").getConnection().writeOutput(message.toJSONString());
+
         this.players.get("Client").getConnection().setConnectionState(ConnectionState.WAITING);
+        message.put("Message","[System] *** Enemy Turn ***");
+        this.players.get("Client").getConnection().writeOutput(message.toJSONString());
     }
 
-    public void changeTurn(ServerUser user){
+    public void changeTurn(ServerUser user) {
+
+        JSONObject message = new JSONObject();
+        message.put("Request", 5);
+        message.put("Command", "Message Command");
+
+        for (String userKey : this.players.keySet()) {
+
+            if (this.players.get(userKey).equals(user)) {
+                this.players.get(userKey).getConnection().setConnectionState(ConnectionState.WAITING);
+                message.put("Message","[System] *** Enemy Turn ***");
+                this.players.get(userKey).getConnection().writeOutput(message.toJSONString());
+            } else {
+                this.players.get(userKey).getConnection().setConnectionState(ConnectionState.PLAYING);
+                message.put("Message","[System] *** Your Turn ***");
+                this.players.get(userKey).getConnection().writeOutput(message.toJSONString());
+            }
+        }
+    }
+
+    public ServerUser getEnemy(ServerUser user){
 
         for(String userKey : this.players.keySet()){
 
-            if(this.players.get(userKey).equals(user)){
-                this.players.get(userKey).getConnection().setConnectionState(ConnectionState.WAITING);
-            }else{
-                this.players.get(userKey).getConnection().setConnectionState(ConnectionState.PLAYING);
+            if(!this.players.get(userKey).equals(user)){
+                return this.players.get(userKey);
             }
         }
+
+        return null;
     }
 
     public synchronized void executeCommand(JSONObject jsonCommand,ServerUser user){
