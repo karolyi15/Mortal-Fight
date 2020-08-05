@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
@@ -23,6 +24,7 @@ public class Server {
 
     //*** Server Register ***
     private HashMap<String, ServerLobby> activeLobbies;
+    private ArrayList<ServerUser> ranking;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -35,6 +37,7 @@ public class Server {
 
         //*** Init Lobby System ***
         this.activeLobbies = new HashMap<>();
+        this.ranking = new ArrayList<>();
     }
 
     public void run(){
@@ -159,6 +162,24 @@ public class Server {
                 break;
             }
         }
+    }
+
+    //*** Ranking ***
+    public void addToRanking(ServerUser user){
+
+        this.ranking.add(user);
+    }
+
+    public JSONArray getRanking(){
+
+        JSONArray rankingData = new JSONArray();
+
+        for(int user=0; user<this.ranking.size();user++){
+
+            rankingData.add(this.ranking.get(user).userStatsJson());
+        }
+
+        return rankingData;
     }
 
 

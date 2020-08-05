@@ -1,6 +1,8 @@
 package Commands;
 
+import ServerConection.ServerUser;
 import ServerConection.UserConnection;
+import org.json.simple.JSONObject;
 
 import java.util.Arrays;
 
@@ -19,7 +21,7 @@ public class MessageCommand implements iCommand{
     }
 
     @Override
-    public void execute(String[] args, UserConnection userConnection){
+    public void execute(String[] args, ServerUser userConnection){
 
         String[] tokenizedMessage = Arrays.copyOfRange(args,2,args.length);
         String message="";
@@ -27,7 +29,13 @@ public class MessageCommand implements iCommand{
             message+= " "+tokenizedMessage[token];
         }
 
-        userConnection.getGame().broadcast(args[0]+message);
+        JSONObject jsonOutput = new JSONObject();
+        jsonOutput.put("Request",5);
+        jsonOutput.put("Command",this.getCommandName());
+        jsonOutput.put("Message",args[0]+message);
+
+        userConnection.getConnection().getGame().broadcast(jsonOutput.toJSONString());
+
     }
 
 }

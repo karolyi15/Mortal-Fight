@@ -25,6 +25,7 @@ public class UserConnection extends Thread{
 
     private JSONObject gameInput;
     private Game game;
+    private ServerUser serverUser;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -93,6 +94,10 @@ public class UserConnection extends Thread{
         this.connectionState = connectionState;
     }
 
+    public void setServerUser(ServerUser serverUser) {
+        this.serverUser = serverUser;
+    }
+
     //*** Client Communication ***
     public void writeOutput(String output){
         this.writer.println(output);
@@ -144,12 +149,25 @@ public class UserConnection extends Thread{
                this.parseConnectionState( (String) inputJson.get("Connection"));
                 System.out.println("Actual State: "+this.connectionState.toString());
 
+            }else if(requestID == 6){
+
+                JSONObject object = new JSONObject();
+                object.put("Request",6);
+                object.put("Ranking",this.server.getRanking());
+                this.writeOutput(object.toJSONString());
+
             }else{
 
                 if(this.game!=null) {
-                    this.game.executeCommand(inputJson,this);
+                    this.game.executeCommand(inputJson,this.serverUser);
                 }else{
-                    this.writeOutput("Invalid Request");
+
+                    JSONObject jsonOutput = new JSONObject();
+                    jsonOutput.put("Request",5);
+                    jsonOutput.put("Command","NotFound Command")       ;
+                    jsonOutput.put("Message","Invalid Request");
+
+                    this.writeOutput(jsonOutput.toJSONString());
                     System.out.println("Invalid Request");
                 }
             }

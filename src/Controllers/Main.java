@@ -328,7 +328,7 @@ public class Main extends Application {
         for(int user=0; user<userData.size();user++){
 
             JSONObject tempUser = (JSONObject) userData.get(user);
-            userList.add(new User((String) tempUser.get("Username"),(long) tempUser.get("Wins"),(long) tempUser.get("Looses"),(long) tempUser.get("Attack"),(long) tempUser.get("Success"),(long) tempUser.get("Failed"),(long) tempUser.get("GiveUp")));
+            userList.add(new User((String) tempUser.get("Username"),(long) tempUser.get("Ranking"),(long) tempUser.get("Wins"),(long) tempUser.get("Looses"),(long) tempUser.get("Attack"),(long) tempUser.get("Success"),(long) tempUser.get("Failed"),(long) tempUser.get("GiveUp")));
 
         }
 
