@@ -22,6 +22,8 @@ public class CommandManager {
         this.commands.put("attack",AttackCommand.class);
         this.commands.put("tie",TieCommand.class);
         this.commands.put("passTurn",PassTurnCommand.class);
+        this.commands.put("reload", ReloadCommand.class);
+        this.commands.put("surrender",SurrenderCommand.class);
 
     }
 

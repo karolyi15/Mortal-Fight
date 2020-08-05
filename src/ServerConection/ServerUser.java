@@ -250,6 +250,16 @@ public class ServerUser {
         return reload;
     }
 
+    public void reload(){
+
+        for(String characterID : this.characters.keySet()) {
+
+            Warrior tempWarrior = (Warrior) this.characters.get(characterID);
+            tempWarrior.reloadWeapons();
+        }
+
+    }
+
     public JSONObject userStatsJson(){
 
         JSONObject userJson = new JSONObject();
