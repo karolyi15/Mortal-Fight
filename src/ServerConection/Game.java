@@ -4,11 +4,6 @@ package ServerConection;
 import Commands.CommandManager;
 import Commands.iCommand;
 import GameFactory.CharacterFactory;
-import GameFactory.WeaponFactory;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
@@ -28,6 +23,9 @@ public class Game {
         this.characterFactory = new CharacterFactory();
         this.commandManager = CommandManager.getInstance();
 
+        host.setGame(this);
+        client.setGame(this);
+
         this.players.put("Host",new ServerUser(host,host.getGameInput()));
         this.players.put("Client",new ServerUser(client,client.getGameInput()));
 
@@ -37,11 +35,20 @@ public class Game {
 
     private void initGame(){
 
-        this.players.get("Host").setGame(this);
-        this.players.get("Client").setGame(this);
-
         this.players.get("Host").getConnection().setConnectionState(ConnectionState.PLAYING);
         this.players.get("Client").getConnection().setConnectionState(ConnectionState.WAITING);
+    }
+
+    public void changeTurn(ServerUser user){
+
+        for(String userKey : this.players.keySet()){
+
+            if(this.players.get(userKey).equals(user)){
+                this.players.get(userKey).getConnection().setConnectionState(ConnectionState.WAITING);
+            }else{
+                this.players.get(userKey).getConnection().setConnectionState(ConnectionState.PLAYING);
+            }
+        }
     }
 
     public synchronized void executeCommand(JSONObject jsonCommand,ServerUser user){
@@ -61,9 +68,41 @@ public class Game {
 
     }
 
-    private String[] tokenizer(String input){
+    public String[] tokenizer(String input){
 
         return input.split("\\s+");
+    }
+
+    public void isGameOver(){
+
+
+        if(this.players.get("Host").isGameOver()){
+            JSONObject jsonWinner = new JSONObject();
+            JSONObject jsonLooser = new JSONObject();
+
+            jsonWinner.put("Request",-1);
+            jsonWinner.put("State","Winner");
+
+            jsonLooser.put("Request",-1);
+            jsonLooser.put("State","Looser");
+
+
+            this.players.get("Host").getConnection().writeOutput(jsonLooser.toJSONString());
+            this.players.get("Client").getConnection().writeOutput(jsonWinner.toJSONString());
+
+        }else if(this.players.get("Client").isGameOver()){
+            JSONObject jsonWinner = new JSONObject();
+            JSONObject jsonLooser = new JSONObject();
+
+            jsonWinner.put("Request",-1);
+            jsonWinner.put("State","Winner");
+
+            jsonLooser.put("Request",-1);
+            jsonLooser.put("State","Looser");
+
+            this.players.get("Host").getConnection().writeOutput(jsonWinner.toJSONString());
+            this.players.get("Client").getConnection().writeOutput(jsonLooser.toJSONString());
+        }
     }
 
     private synchronized JSONObject getEnemyData(ServerUser user){
@@ -79,6 +118,10 @@ public class Game {
         }
 
         return jsonOutput;
+    }
+
+    public CharacterFactory getCharacterFactory() {
+        return characterFactory;
     }
 
     public void broadcast(String output){

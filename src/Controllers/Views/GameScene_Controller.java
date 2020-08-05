@@ -4,6 +4,7 @@ import Controllers.Main;
 import ServerConection.Client;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -14,6 +15,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class GameScene_Controller {
@@ -156,6 +160,24 @@ public class GameScene_Controller {
                 "Surrenders: "+(long) enemyData.get("GiveUp")+"\n");
     }
 
+    //***
+
+    public void endGame(String State){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+
+        if(State.equals("Winner")){
+            alert.setHeaderText("Winner!!!");
+            alert.setContentText("A champion boy");
+        }else{
+            alert.setHeaderText("Looser");
+            alert.setContentText("You sucks");
+        }
+
+        alert.showAndWait();
+        this.mainApp.showMenuScene();
+    }
+
     //*** Input Handler ***
     @FXML
     private void onHandleSendMessage(){
@@ -216,10 +238,13 @@ public class GameScene_Controller {
                 JSONObject inputJson = (JSONObject) parser.parse(inputString);
 
                 if((long)inputJson.get("Request") == 5) {
+
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    String date = dtf.format(LocalDateTime.now());
                     //Commands
                     if (inputJson.get("Command").equals("Message Command")) {
 
-                        this.console.appendText("\n" + (String) inputJson.get("Message"));
+                        this.console.appendText("\n"+date+ (String) inputJson.get("Message"));
 
                     } else if (inputJson.get("Command").equals("Attack Command")) {
 
@@ -231,11 +256,18 @@ public class GameScene_Controller {
                         this.console.appendText("\n" + (String) inputJson.get("Message"));
                     }
                 }else if((long)inputJson.get("Request") == 6){
+
                     //Display Ranking
                     this.controller.showRanking((JSONArray) inputJson.get("Ranking"));
+
                 }else if((long)inputJson.get("Request") == 7){
+
                     //Display Enemy
                     this.controller.showEnemyInformation((JSONObject) inputJson.get("User"));
+
+                }else if((long)inputJson.get("Request") == -1){
+
+                    controller.endGame((String) inputJson.get("State"));
                 }
 
             }catch (ParseException e){

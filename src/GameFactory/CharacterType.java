@@ -4,26 +4,26 @@ public enum CharacterType {
 
     //https://www.deviantart.com/herocollector16/art/Top-20-Greatest-Mortal-Kombat-Characters-of-All-Ti-811835919
 
-    CYRAX(ElementType.IRON,"CYRAX.jpeg"),
-    NOOBSAIBOT(ElementType.IRON,"NOOBSAIBOT.jpeg"),
-    REPTILE(ElementType.ACID,"REPTILE.jpeg"),
-    GORO(ElementType.BLACKMAGIC,"GORO.jpeg"),
-    KANO(ElementType.ELECTRIC,"KANO.jpeg"),
-    BARAKA(ElementType.ACID,"BARAKA.jpeg"),
-    SHANGTSUNG(ElementType.ELECTRIC,"SHANGTSUNG.jpeg"),
-    JAX(ElementType.FIRE,"JAX.jpeg"),
-    MILEENA(ElementType.AIR,"MILEENA.jpeg"),
-    SHAOKAHN(ElementType.MAGIC,"SHAOKAHN.jpeg"),
-    SONYABLADE(ElementType.ICE,"SONYABLADE.jpeg"),
-    KENSHI(ElementType.WATER,"KENSHI.jpeg"),
-    KUNGLAO(ElementType.BLACKMAGIC,"KUNGLAO.jpeg"),
-    KITANA(ElementType.ICE,"KITANA.jpeg"),
-    RAIDEN(ElementType.IRON,"RAIDEN.jpeg"),
-    CASSIECAGE(ElementType.SPIRITUAL,"CASSIECAGE.jpeg"),
-    JOHNNYCAGE(ElementType.FIRE,"JOHNNYCAGE.jpeg"),
-    LIUKANG(ElementType.FIRE,"LIUKANG.jpeg"),
-    SUBZERO(ElementType.ICE,"SUBZERO.jpeg"),
-    SCORPION(ElementType.FIRE,"SCORPION.jpeg");
+    CYRAX(ElementType.IRON,"file:Resources/Imgs/CYRAX.jpeg"),
+    NOOBSAIBOT(ElementType.IRON,"file:Resources/Imgs/NOOBSAIBOT.jpeg"),
+    REPTILE(ElementType.ACID,"file:Resources/Imgs/REPTILE.jpeg"),
+    GORO(ElementType.BLACKMAGIC,"file:Resources/Imgs/GORO.jpeg"),
+    KANO(ElementType.ELECTRIC,"file:Resources/Imgs/KANO.jpeg"),
+    BARAKA(ElementType.ACID,"file:Resources/Imgs/BARAKA.jpeg"),
+    SHANGTSUNG(ElementType.ELECTRIC,"file:Resources/Imgs/SHANGTSUNG.jpeg"),
+    JAX(ElementType.FIRE,"file:Resources/Imgs/JAX.jpeg"),
+    MILEENA(ElementType.AIR,"file:Resources/Imgs/MILEENA.jpeg"),
+    SHAOKAHN(ElementType.MAGIC,"file:Resources/Imgs/SHAOKAHN.jpeg"),
+    SONYABLADE(ElementType.ICE,"file:Resources/Imgs/SONYABLADE.jpeg"),
+    KENSHI(ElementType.WATER,"file:Resources/Imgs/KENSHI.jpeg"),
+    KUNGLAO(ElementType.BLACKMAGIC,"file:Resources/Imgs/KUNGLAO.jpeg"),
+    KITANA(ElementType.ICE,"file:Resources/Imgs/KITANA.jpeg"),
+    RAIDEN(ElementType.IRON,"file:Resources/Imgs/RAIDEN.jpeg"),
+    CASSIECAGE(ElementType.SPIRITUAL,"file:Resources/Imgs/CASSIECAGE.jpeg"),
+    JOHNNYCAGE(ElementType.FIRE,"file:Resources/Imgs/JOHNNYCAGE.jpeg"),
+    LIUKANG(ElementType.FIRE,"file:Resources/Imgs/LIUKANG.jpeg"),
+    SUBZERO(ElementType.ICE,"file:Resources/Imgs/SUBZERO.jpeg"),
+    SCORPION(ElementType.FIRE,"file:Resources/Imgs/SCORPION.jpeg");
 
     private ElementType element;
     private final String image;
