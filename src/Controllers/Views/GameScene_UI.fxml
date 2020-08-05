@@ -22,8 +22,8 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="100.0" styleClass="background-black">
                            <children>
-                              <ImageView fitHeight="303.0" fitWidth="200.0" layoutX="401.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0" />
-                              <TextArea editable="false" layoutX="43.0" layoutY="82.0" prefHeight="241.0" prefWidth="427.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="82.0" />
+                              <ImageView fx:id="character_ImageView" fitHeight="303.0" fitWidth="200.0" layoutX="401.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0" />
+                              <TextArea fx:id="characterInformation_TextArea" editable="false" layoutX="43.0" layoutY="82.0" prefHeight="241.0" prefWidth="427.0" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="82.0" />
                               <Label layoutX="20.0" layoutY="20.0" styleClass="label-header" text="Active Character" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
                            </children></AnchorPane>
                     </items>

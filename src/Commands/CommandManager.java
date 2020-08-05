@@ -18,6 +18,7 @@ public class CommandManager {
 
         this.commands = new HashMap();
         this.commands.put("message",MessageCommand.class);
+        this.commands.put("selectCharacter",SelectCharacterCommand.class);
 
     }
 

@@ -1,5 +1,6 @@
 package Commands;
 
+import ServerConection.ConnectionState;
 import ServerConection.ServerUser;
 import org.json.simple.JSONObject;
 
@@ -12,27 +13,35 @@ public class SelectCharacterCommand implements iCommand{
     }
 
     @Override
-    public void execute(String[] args, ServerUser userConnection){
+    public void execute(String[] args, ServerUser userConnection) {
 
         JSONObject jsonOutput = new JSONObject();
-        jsonOutput.put("Request",5);
+        jsonOutput.put("Request", 5);
 
-        if(args.length<3 || args.length>3){
-            new ErrorCommand().execute(args,userConnection);
-        }else{
+        if (userConnection.getConnection().getConnectionState() == ConnectionState.PLAYING) {
 
-            if(userConnection.setActiveCharacter(args[2])){
+            if (args.length < 3 || args.length > 3) {
+                new ErrorCommand().execute(args, userConnection);
+                return;
+            } else {
 
-                jsonOutput.put("RequestState",true);
-                //jsonOutput.put("Character",userConnection.getActiveCharacter().)
-            }else{
+                if (userConnection.setActiveCharacter(args[2])) {
 
-                jsonOutput.put("RequestState",false);
+                    jsonOutput.put("RequestState", true);
+                    jsonOutput.put("Character",userConnection.getActiveCharacter().toJson());
+                } else {
+
+                    jsonOutput.put("RequestState", false);
+                }
             }
-        }
-        jsonOutput.put("Command",this.getCommandName());
-        jsonOutput.put("Message","New Character Selected");
+            jsonOutput.put("Command", this.getCommandName());
 
-        userConnection.getConnection().writeOutput(jsonOutput.toJSONString());
+            userConnection.getConnection().writeOutput(jsonOutput.toJSONString());
+
+        }else{
+            new ErrorCommand().execute(args, userConnection);
+            return;
+
+        }
     }
 }

@@ -1,4 +1,6 @@
 package GameFactory;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 
 public abstract class Character {
@@ -29,4 +31,5 @@ public abstract class Character {
     public abstract void setElement(ElementType element);
 
     public abstract void getData();
+    public abstract JSONObject toJson();
 }

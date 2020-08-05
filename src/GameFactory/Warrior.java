@@ -1,6 +1,10 @@
 package GameFactory;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class Warrior  extends Character{
@@ -113,5 +117,33 @@ public class Warrior  extends Character{
                 System.out.println("        Element: " + ElementType.values()[j].name()+" / # of Damage: " + this.listWeapons.get(i).getListDamagePerElement().get(ElementType.values()[j]));
             }
         }
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("character", this.character.toString());//CONVERTED TO STRING
+        json.put("Element", this.element.toString());//CONVERTED TO STRING
+        json.put("Life", this.life);
+        json.put("State", this.state);
+        json.put("ImgPath",this.character.getImage());
+        JSONArray arrayWeapons = new JSONArray();
+        for (int i = 0; i < this.listWeapons.size(); i++) {
+            JSONObject weaponJson = new JSONObject();
+            weaponJson.put("WeaponType", this.listWeapons.get(i).getWeaponType().toString());//CONVERTED TO STRING
+            weaponJson.put("State", this.listWeapons.get(i).getState());
+            JSONArray arrayWeaponsElements = new JSONArray();
+            for (Map.Entry m : this.listWeapons.get(i).getListDamagePerElement().entrySet()) {
+                JSONObject weaponElementJson = new JSONObject();
+                System.out.println(m.getKey() + " " + m.getValue());
+                weaponElementJson.put("ElementType", m.getKey().toString());//CONVERTED TO STRING
+                weaponElementJson.put("Damage", m.getValue());
+                arrayWeaponsElements.add(weaponElementJson);
+            }
+            weaponJson.put("ListDamage", arrayWeaponsElements);
+            arrayWeapons.add(weaponJson);
+        }
+        json.put("WeaponList", arrayWeapons);
+        System.out.println(json);
+        return json;
     }
 }

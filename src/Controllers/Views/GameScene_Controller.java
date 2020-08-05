@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -35,6 +37,10 @@ public class GameScene_Controller {
     private TextArea gameLog_TextArea;
     @FXML
     private TextField userInput_TextField;
+    @FXML
+    private ImageView character_ImageView;
+    @FXML
+    private TextArea characterInformation_TextArea;
 
     //********************************************************************************************************//
     //******************************************** CLASS METHODS *********************************************//
@@ -73,6 +79,45 @@ public class GameScene_Controller {
 
 
     //*** Display Information ***
+
+    private void displayActiveCharacter(JSONObject jsonObject){
+
+        Image characterImg = new Image((String)jsonObject.get("ImgPath").toString().replaceAll("\\\\",""));
+        this.character_ImageView.setImage(characterImg);
+
+        String characterInformation ="***************************************\n" +
+                "Character: "+jsonObject.get("Character")+"\n"+
+                "***************************************\n" +
+                "Type: "+jsonObject.get("Element")+"\n"+
+                "Alive: "+jsonObject.get("State")+"\n"+
+                "Life Points"+jsonObject.get("Life")+"\n"+
+                "***************************************\n" +
+                "Weapon List\n" +
+                "***************************************\n";
+
+        JSONArray weaponList = (JSONArray) jsonObject.get("WeaponList");
+
+        for(int weapon=0;weapon<weaponList.size();weapon++){
+            JSONObject tempWeapon = (JSONObject) weaponList.get(weapon);
+            characterInformation+="Weapon: "+tempWeapon.get("WeaponType")+"\n"+
+                    "Active: "+tempWeapon.get("State")+"\n"+
+                    "***************************************\n" +
+                    "Dame:\n";
+            JSONArray tempDamageList = (JSONArray)tempWeapon.get("ListDamage");
+            for(int damage=0;damage<tempDamageList.size();damage++){
+                JSONObject tempDamage = (JSONObject) tempDamageList.get(damage);
+                characterInformation+="Element: "+tempDamage.get("ElementType")+
+                        " Damage:"+tempDamage.get("Damage")+"\n";
+            }
+
+            characterInformation+= "***************************************\n";
+        }
+
+
+       this.characterInformation_TextArea.setText(characterInformation);
+    }
+
+
     private void showUserInformation(){
 
         this.gameLog_TextArea.clear();
@@ -246,8 +291,16 @@ public class GameScene_Controller {
 
                         this.console.appendText("\n"+date+ (String) inputJson.get("Message"));
 
-                    } else if (inputJson.get("Command").equals("Attack Command")) {
+                    } else if (inputJson.get("Command").equals("SelectCharacter Command")) {
 
+                        if((boolean) inputJson.get("RequestState")==true){
+
+                            this.console.appendText("\n"+date+" New character selected");
+                            this.controller.displayActiveCharacter((JSONObject) inputJson.get("Character"));
+
+                        }else{
+                            this.console.appendText("\n"+date+" Error selecting character");
+                        }
                     } else if (inputJson.get("Command").equals("Reload Command")) {
 
 

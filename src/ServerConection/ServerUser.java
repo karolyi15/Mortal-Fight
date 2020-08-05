@@ -117,6 +117,7 @@ public class ServerUser {
 
             if (this.characters.get(character).getState() == true) {
                 this.activeCharacter = this.characters.get(character);
+                return true;
             }
 
         }catch (Exception e){
